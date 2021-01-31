@@ -7,7 +7,7 @@
     },
     "interactions": [
         {
-            "description": "GET REQUEST",
+            "description": "a request for json data",
             "request": {
                 "method": "GET",
                 "path": "/product"
@@ -15,7 +15,7 @@
             "response": {
                 "status": 200,
                 "headers": {
-                    "Accept-Language": "az",
+                    "Accept-Language": "en",
                     "Content-Type": "application/json; charset=UTF-8"
                 },
                 "body": {
@@ -27,59 +27,6 @@
                     "salary": 1000
                 },
                 "matchingRules": {
-                    "header": {
-                        "Content-Type": {
-                            "matchers": [
-                                {
-                                    "match": "regex",
-                                    "regex": "application/json(;\\s?charset=[\\w\\-]+)?"
-                                }
-                            ],
-                            "combine": "AND"
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "description": "GET REQUEST",
-            "request": {
-                "method": "GET",
-                "path": "/product"
-            },
-            "response": {
-                "status": 200,
-                "headers": {
-                    "Accept-Language": "az",
-                    "Content-Type": "application/json; charset=UTF-8"
-                },
-                "body": {
-                    "contact": {
-                        "phone_number": "56565656",
-                        "email": "billdoe@gmail.com"
-                    },
-                    "name": "Bill Doe",
-                    "salary": 1000
-                },
-                "matchingRules": {
-                    "body": {
-                        "$.salary": {
-                            "matchers": [
-                                {
-                                    "match": "number"
-                                }
-                            ],
-                            "combine": "AND"
-                        },
-                        "$.name": {
-                            "matchers": [
-                                {
-                                    "match": "type"
-                                }
-                            ],
-                            "combine": "AND"
-                        }
-                    },
                     "header": {
                         "Content-Type": {
                             "matchers": [
@@ -95,7 +42,7 @@
             },
             "providerStates": [
                 {
-                    "name": "test GET"
+                    "name": "data count > 0"
                 }
             ]
         }

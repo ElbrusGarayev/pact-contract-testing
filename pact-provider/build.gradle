@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+
+group 'org.pact'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testCompile 'au.com.dius.pact.provider:junit:4.1.15'
+}
+
+test {
+    useJUnitPlatform()
+}
