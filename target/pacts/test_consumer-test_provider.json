@@ -1,0 +1,111 @@
+{
+    "provider": {
+        "name": "test_provider"
+    },
+    "consumer": {
+        "name": "test_consumer"
+    },
+    "interactions": [
+        {
+            "description": "GET REQUEST",
+            "request": {
+                "method": "GET",
+                "path": "/product"
+            },
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Accept-Language": "az",
+                    "Content-Type": "application/json; charset=UTF-8"
+                },
+                "body": {
+                    "contact": {
+                        "phone_number": "56565656",
+                        "email": "billdoe@gmail.com"
+                    },
+                    "name": "Bill Doe",
+                    "salary": 1000
+                },
+                "matchingRules": {
+                    "header": {
+                        "Content-Type": {
+                            "matchers": [
+                                {
+                                    "match": "regex",
+                                    "regex": "application/json(;\\s?charset=[\\w\\-]+)?"
+                                }
+                            ],
+                            "combine": "AND"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "description": "GET REQUEST",
+            "request": {
+                "method": "GET",
+                "path": "/product"
+            },
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Accept-Language": "az",
+                    "Content-Type": "application/json; charset=UTF-8"
+                },
+                "body": {
+                    "contact": {
+                        "phone_number": "56565656",
+                        "email": "billdoe@gmail.com"
+                    },
+                    "name": "Bill Doe",
+                    "salary": 1000
+                },
+                "matchingRules": {
+                    "body": {
+                        "$.salary": {
+                            "matchers": [
+                                {
+                                    "match": "number"
+                                }
+                            ],
+                            "combine": "AND"
+                        },
+                        "$.name": {
+                            "matchers": [
+                                {
+                                    "match": "type"
+                                }
+                            ],
+                            "combine": "AND"
+                        }
+                    },
+                    "header": {
+                        "Content-Type": {
+                            "matchers": [
+                                {
+                                    "match": "regex",
+                                    "regex": "application/json(;\\s?charset=[\\w\\-]+)?"
+                                }
+                            ],
+                            "combine": "AND"
+                        }
+                    }
+                }
+            },
+            "providerStates": [
+                {
+                    "name": "test GET"
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "pactSpecification": {
+            "version": "3.0.0"
+        },
+        "pact-jvm": {
+            "version": "3.6.2"
+        }
+    }
+}

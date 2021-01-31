@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.3.4.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id "au.com.dius.pact" version "4.1.15"
+}
+
+group 'org.pact'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testCompile 'au.com.dius.pact.consumer:junit:4.1.15'
+    testCompile 'au.com.dius.pact.consumer:java8:4.1.15'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+}
+
+pact {
+    publish {
+        pactDirectory = 'target/pacts'
+//        pactBrokerUrl = 'http://localhost:8000'
+    }
+}
