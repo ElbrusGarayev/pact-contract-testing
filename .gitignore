@@ -4,3 +4,7 @@
 /build/classes/java/test/
 /.idea/
 /gradle/
+
+# Project exclude paths
+/pact-provider/build/
+/pact-provider/build/classes/java/test/
