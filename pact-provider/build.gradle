@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+
 }
 
 group 'org.pact'
@@ -12,9 +13,37 @@ repositories {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-    testCompile 'au.com.dius.pact.provider:junit:4.1.15'
+    testCompile 'au.com.dius.pact.provider:junit5:4.1.0'
+    compile 'org.springframework.boot:spring-boot-starter-web:2.3.4.RELEASE'
+//    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
     useJUnitPlatform()
+}
+
+
+pact {
+    serviceProviders {
+        // You can define as many as you need, but each must have a unique name
+        test_provider {
+            // All the provider properties are optional, and have sensible defaults (shown below)
+            protocol = 'http'
+            host = 'localhost'
+            port = 8080
+            path = '/'
+            // Again, you can define as many consumers for each provider as you need, but each must have a unique name
+            hasPactWith('test_consumer') {
+                // currently supports a file path using file() or a URL using url()
+                pactSource = file('src/test/resources/pacts/test_consumer-test_provider.json')
+            }
+//            // Or if you have many pact files in a directory
+//            hasPactsWith('manyConsumers') {
+//                // Will define a consumer for each pact file in the directory.
+//                // Consumer name is read from contents of pact file
+//                pactFileLocation = file('path/to/pacts')
+//
+//            }
+        }
+    }
 }

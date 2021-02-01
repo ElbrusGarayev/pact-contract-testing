@@ -1,29 +1,36 @@
 package pact;
 
-import au.com.dius.pact.core.model.annotations.PactFolder;
-import au.com.dius.pact.provider.junit.PactRunner;
-import au.com.dius.pact.provider.junit.target.HttpTarget;
-import au.com.dius.pact.provider.junitsupport.Provider;
+
+import au.com.dius.pact.provider.junit5.HttpTestTarget;
+import au.com.dius.pact.provider.junit5.PactVerificationContext;
 import au.com.dius.pact.provider.junitsupport.State;
-import au.com.dius.pact.provider.junitsupport.loader.PactUrl;
-import au.com.dius.pact.provider.junitsupport.target.Target;
-import au.com.dius.pact.provider.junitsupport.target.TestTarget;
-import org.junit.runner.RunWith;
+import au.com.dius.pact.provider.junitsupport.loader.PactFolder;
+
+import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
+import au.com.dius.pact.provider.junitsupport.Provider;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestTemplate;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * @author Elbrus Garayev on 1/30/2021
  */
-@RunWith(PactRunner.class) // Say JUnit to run tests with custom Runner
-@Provider("test_provider") // Set up name of tested provider
-@PactFolder("target/pacts") // Point where to find pacts (See also section Pacts source in documentation)
-//@PactUrl(urls = {"file:///C:/Users/004460/IdeaProjects/pact-contract-testing/target/pacts/test_consumer-test_provider.json"})
+@Provider("test_provider")
+@PactFolder("src/test/resources/pacts")
 public class PactProviderTest {
 
-    @State("") // Method will be run before testing interactions that require "with-data" state
-    public void hammerSmith() {
-        System.out.println("There is a bus with number 613 arriving to Hammersmith bus station" );
+//    @BeforeEach
+//    void before(PactVerificationContext context) {
+//        context.setTarget(new HttpTestTarget("localhost", 8080, "/"));
+//    }
+
+    @TestTemplate
+    @ExtendWith(PactVerificationInvocationContextProvider.class)
+    void pactVerificationTestTemplate(PactVerificationContext context) {
+        context.verifyInteraction();
     }
 
-    @TestTarget // Annotation denotes Target that will be used for tests
-    public final Target target = new HttpTarget(8111); // Out-of-the-box implementation of Target (for more information take a look at Test Target section)
+    @State("data count >= 0")
+    public void toGetState() { }
 }
+

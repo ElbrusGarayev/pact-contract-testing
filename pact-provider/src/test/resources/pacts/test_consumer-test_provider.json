@@ -1,0 +1,57 @@
+{
+  "provider": {
+    "name": "test_provider"
+  },
+  "consumer": {
+    "name": "test_consumer"
+  },
+  "interactions": [
+    {
+      "description": "a request for json data",
+      "request": {
+        "method": "GET",
+        "path": "/user"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Accept-Language": "en",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "contact": {
+            "phone_number": "56565656",
+            "email": "billdoe@gmail.com"
+          },
+          "name": "Bill Doe",
+          "salary": 1000
+        },
+        "matchingRules": {
+          "body": {
+            "$.salary": {
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "data count >= 0"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "4.1.7"
+    }
+  }
+}

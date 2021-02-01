@@ -18,5 +18,7 @@ W
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
 9
 	readme.md,2\7\275d783e298228506068436512433d343feb52aa
-X
-(src/test/java/pact/PactProviderTest.java,4\d\4dd74cc72494cb5da3d90d500a3d391237a863cd
+J
+pact-provider/build.gradle,2\b\2bdbb71854a3a6e9256c77a57d43d35a981fb85e
+f
+6pact-provider/src/test/java/pact/PactProviderTest.java,7\c\7ce9f3687500474d69d93db97b827272ec94d9e5
