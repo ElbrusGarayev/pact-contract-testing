@@ -13,18 +13,12 @@ repositories {
 }
 
 dependencies {
+    implementation     group: 'com.google.http-client',     name: 'google-http-client-jackson2',  version: '1.28.0'
+    implementation     group: 'com.google.api-client',      name: 'google-api-client-jackson2',   version: '1.28.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     testCompile 'au.com.dius.pact.consumer:junit:4.1.7'
-    testCompile 'au.com.dius.pact.provider:junit:4.1.7'
     testCompile 'au.com.dius.pact.consumer:java8:4.1.7' //to using the Pact LambdaDSL
     compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'com.jayway.jsonpath:json-path:2.5.0'
+//    compile 'com.jayway.jsonpath:json-path:2.5.0'
 }
-
-
-//pact {
-//    publish {
-//        pactDirectory = "target/pacts"
-//    }
-//}

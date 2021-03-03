@@ -37,13 +37,6 @@ pact {
                 // currently supports a file path using file() or a URL using url()
                 pactSource = file('src/test/resources/pacts/test_consumer-test_provider.json')
             }
-//            // Or if you have many pact files in a directory
-//            hasPactsWith('manyConsumers') {
-//                // Will define a consumer for each pact file in the directory.
-//                // Consumer name is read from contents of pact file
-//                pactFileLocation = file('path/to/pacts')
-//
-//            }
         }
     }
 }

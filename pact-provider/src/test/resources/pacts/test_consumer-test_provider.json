@@ -10,7 +10,11 @@
       "description": "a request for json data",
       "request": {
         "method": "GET",
-        "path": "/user"
+        "path": "/users",
+        "headers": {
+          "Accept-Language": "en",
+          "Content-Type": "application/json"
+        }
       },
       "response": {
         "status": 200,
@@ -25,18 +29,6 @@
           },
           "name": "Bill Doe",
           "salary": 1000
-        },
-        "matchingRules": {
-          "body": {
-            "$.salary": {
-              "matchers": [
-                {
-                  "match": "number"
-                }
-              ],
-              "combine": "AND"
-            }
-          }
         }
       },
       "providerStates": [

@@ -1,36 +1,34 @@
 package pact;
 
+import app.RestService;
 import au.com.dius.pact.consumer.dsl.DslPart;
 import au.com.dius.pact.consumer.dsl.PactDslJsonBody;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
-
 import au.com.dius.pact.consumer.junit.PactProviderRule;
 import au.com.dius.pact.consumer.junit.PactVerification;
+import au.com.dius.pact.consumer.model.MockProviderConfig;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
+import au.com.dius.pact.core.model.annotations.PactFolder;
+import com.google.api.client.http.HttpHeaders;
 import org.junit.Rule;
 import org.junit.Test;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
 
-import com.jayway.jsonpath.JsonPath;
-
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static io.pactfoundation.consumer.dsl.LambdaDsl.*;
+import static io.pactfoundation.consumer.dsl.LambdaDsl.newJsonBody;
 
 /**
  * @author Elbrus Garayev on 1/29/2021
  */
+@PactFolder("pact-provider/src/test/resources/pacts")
 public class PactConsumerTest {
 
     @Rule
     public PactProviderRule mockProvider
-            = new PactProviderRule("test_provider", this);
+            = new PactProviderRule("test_provider", MockProviderConfig.LOCALHOST, 8080, this);
 
     @Pact(consumer = "test_consumer")
     public RequestResponsePact createPact(PactDslWithProvider builder) {
@@ -38,14 +36,16 @@ public class PactConsumerTest {
         headers.put("Accept-Language", "en");
         headers.put("Content-Type", "application/json");
 
+        //version 1 for creating body
         DslPart body = new PactDslJsonBody()
-                .numberType("salary", 1000)
+                .numberValue("salary", 1000)
                 .stringValue("name", "Bill Doe")
                 .object("contact")
                 .stringValue("email", "billdoe@gmail.com")
                 .stringValue("phone_number", "56565656")
                 .closeObject();
 
+        //version 2 for creating body
         DslPart bodyWithLambda = newJsonBody((jsonBody) -> {
             jsonBody.numberValue("salary", 1000);
             jsonBody.stringValue("name", "Bill Doe");
@@ -58,8 +58,11 @@ public class PactConsumerTest {
         return builder
                 .given("data count >= 0")
                 .uponReceiving("a request for json data")
-                .path("/user")
+                .path("/users")
+//                .matchPath("user/(employee|customer)")
+                .headers(headers)
                 .method("GET")
+//                .body(bodyWithLambda)
                 .willRespondWith()
                 .status(200)
                 .headers(headers)
@@ -69,13 +72,12 @@ public class PactConsumerTest {
 
     @Test
     @PactVerification(fragment = "createPact")
-    public void shouldFetchProducts() {
-        ResponseEntity<String> response = new RestTemplate()
-                .getForEntity(mockProvider.getUrl() + "/user", String.class);
-
-        assertEquals(200, response.getStatusCode().value());
-        assertTrue(Objects.requireNonNull(response.getHeaders().get("Accept-Language")).contains("en"));
-        assertEquals("Bill Doe", JsonPath.read(response.getBody(), "$.name"));
+    public void shouldFetchProducts() throws IOException {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.put("Accept-Language", "en");
+        httpHeaders.put("Content-Type", "application/json");
+        RestService.get(httpHeaders, "/users");
+//        RestService.get("/users");
     }
 }
 

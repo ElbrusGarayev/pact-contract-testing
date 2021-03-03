@@ -1,4 +1,4 @@
-package app.test1;
+package app;
 
 /**
  * @author Elbrus Garayev on 2/1/2021
